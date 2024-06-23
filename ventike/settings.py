@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'ventike.wsgi.application'
 DATABASES = {
     'default': dj_database_url.config(
         # Replace this value with your local database's connection string.
-        default=os.getenv("DATABASE_URI"),
+        default=os.getenv("DATABASE_URL"),
         conn_max_age=600
     )
 }
