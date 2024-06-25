@@ -59,6 +59,9 @@ class UserAuthentication(APIView):
         username = request.query_params.get("username", "")
         password = request.query_params.get("password", "")
 
+        print(username)
+        print(password)
+
         if not (username and password):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         
