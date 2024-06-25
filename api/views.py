@@ -15,9 +15,9 @@ from django.utils.dateparse import parse_date, parse_time
 colours = [(241, 91, 181), (254, 228, 64), (17, 138, 178), (6, 214, 160), (155, 93, 229), (0, 187, 249), (231, 29, 54), (255, 159, 28)]
 
 # Create your views here.
-class UserListCreate(generics.ListCreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+# class UserListCreate(generics.ListCreateAPIView):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
 
 class UserData(APIView):
     def post(self, request, format=None):

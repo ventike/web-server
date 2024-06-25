@@ -19,5 +19,5 @@ urlpatterns = [
     path("private/delete-event/", views.EventDeletion.as_view(), name="event-view-delete"),
     path("private/modify-organization/", views.OrganizationModification.as_view(), name="organization-view-modify"),
     path("private/admin/", views.AdminList.as_view(), name="admin-view-list"),
-    path("usersold/", views.UserListCreate.as_view(), name="user-view-create-account")
+    # path("usersold/", views.UserListCreate.as_view(), name="user-view-create-account")
 ]
