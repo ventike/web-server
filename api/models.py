@@ -6,8 +6,8 @@ class Organization(models.Model):
     is_deleted = models.BooleanField(null=False, blank=False, default=False)
     creation_date = models.DateTimeField(auto_now_add=True)
     name = models.CharField(null=False, blank=False, unique=True, max_length=64)
-    message = models.TextField(null=True, blank=True)
-    message_icon = models.IntegerField(null=True, blank=True) # 0 = red/warning
+    message = models.TextField(null=True)
+    message_icon = models.IntegerField(null=True) # 0 = red/warning
 
     def __str__(self):
         return f"{self.name}"
