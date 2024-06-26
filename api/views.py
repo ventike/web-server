@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics, status
 from rest_framework.response import Response
 from .models import Organization, User, Individual, Tag, Partner, Resource, Event
-from .serializers import OrganizationSerializer, UserSerializer, UserAdminSerializer, TagSerializer, TagPartnerSerializer, PartnerSerializer, PartnerEventSerializer, EventSerializer
+from .serializers import OrganizationSerializer, UserSerializer, UserAdminSerializer, TagSerializer, TagPartnerSerializer, PartnerSerializer, PartnerEventSerializer, EventSerializer, EventDashboardSerializer
 from rest_framework.views import APIView
 import bcrypt
 from django.core.files.base import ContentFile
@@ -607,6 +607,26 @@ class OrganizationModification(APIView):
         
         serializer = OrganizationSerializer(user.organization)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+######################################################################################################
+
+class DashboardList(APIView):
+    def post(self, request, format=None):
+        user_hash = request.query_params.get("user_hash", "")
+
+        if not user_hash:
+            return Response(status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        
+        try:
+            user = User.objects.prefetch_related('organization').get(user_hash=user_hash)
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        
+        events = Event.objects.filter(organization=user.organization)
+        
+        event_serializer = EventDashboardSerializer(events, many=True)
+        organization_serializer = OrganizationSerializer(user.organization)
+        return Response([event_serializer.data, organization_serializer.data], status=status.HTTP_200_OK)
 
 ######################################################################################################
 

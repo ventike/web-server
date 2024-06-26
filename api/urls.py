@@ -18,6 +18,7 @@ urlpatterns = [
     path("private/modify-event/", views.EventModification.as_view(), name="event-view-modify"),
     path("private/delete-event/", views.EventDeletion.as_view(), name="event-view-delete"),
     path("private/modify-organization/", views.OrganizationModification.as_view(), name="organization-view-modify"),
+    path("private/dashboard/", views.DashboardList.as_view(), name="admin-view-list"),
     path("private/admin/", views.AdminList.as_view(), name="admin-view-list"),
     # path("usersold/", views.UserListCreate.as_view(), name="user-view-create-account")
 ]

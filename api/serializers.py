@@ -90,7 +90,15 @@ class PartnerIDSerializer(serializers.ModelSerializer):
 
 class EventSerializer(serializers.ModelSerializer):
     organization = OrganizationSerializer(read_only=True)
+    partners = PartnerEventSerializer(read_only=True, many=True)
 
     class Meta:
         model = Event
         fields = ["pk", "name", "description", "date", "start_time", "end_time", "organization", "partners"]
+
+class EventDashboardSerializer(serializers.ModelSerializer):
+    partners = PartnerEventSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Event
+        fields = ["pk", "name", "description", "date", "start_time", "end_time", "partners"]

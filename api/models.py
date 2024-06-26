@@ -111,4 +111,12 @@ class Event(models.Model):
     partners = models.ManyToManyField(Partner)
 
     def __str__(self):
-        return f"{self.name} | {self.partner}"
+        partners = ""
+
+        for partner in self.partners.all():
+            partners += partner.name + ", "
+
+        if partners:
+            partners = partners[:-2]
+
+        return f"{self.name} | {partners if partners else 'No Partners'}"
