@@ -246,12 +246,16 @@ class PartnerCreation(APIView):
             return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
         
         # Derived from https://stackoverflow.com/a/39587386
+        # image_data = None
+        # if image:
+        #     format, imgstr = image.split(';base64,') 
+        #     ext = format.split('/')[-1] 
+
+        #     image_data = ContentFile(base64.b64decode(imgstr), name='image.' + ext)
+
         image_data = None
         if image:
-            format, imgstr = image.split(';base64,') 
-            ext = format.split('/')[-1] 
-
-            image_data = ContentFile(base64.b64decode(imgstr), name='image.' + ext)
+            image_data = image
         
         tags_data = None
         tags_split = tags.split(", ")
@@ -336,12 +340,16 @@ class PartnerModification(APIView):
             return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
         
         # Derived from https://stackoverflow.com/a/39587386
+        # image_data = None
+        # if image:
+        #     format, imgstr = image.split(';base64,') 
+        #     ext = format.split('/')[-1] 
+
+        #     image_data = ContentFile(base64.b64decode(imgstr), name='image.' + ext)
+        
         image_data = None
         if image:
-            format, imgstr = image.split(';base64,') 
-            ext = format.split('/')[-1] 
-
-            image_data = ContentFile(base64.b64decode(imgstr), name='image.' + ext)
+            image_data = image
         
         tags_data = None
         tags_split = tags.split(", ")

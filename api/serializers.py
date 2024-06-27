@@ -9,7 +9,7 @@ class OrganizationSerializer(serializers.ModelSerializer):
 ######################################################################################################
 
 class UserSerializer(serializers.ModelSerializer):
-    profile_picture = serializers.ImageField(required=False)
+    # profile_picture = serializers.ImageField(required=False)
     organization = OrganizationSerializer(read_only=True)
 
     class Meta:
@@ -17,7 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ["user_hash", "username", "email", "first_name", "last_name", "role", "creation_date", "profile_picture", "organization"]
 
 class UserAdminSerializer(serializers.ModelSerializer):
-    profile_picture = serializers.ImageField(required=False)
+    # profile_picture = serializers.ImageField(required=False)
 
     class Meta:
         model = User
@@ -66,7 +66,7 @@ class IndividualPartnerSerializer(serializers.ModelSerializer):
 ######################################################################################################
 
 class PartnerSerializer(serializers.ModelSerializer):
-    image = serializers.ImageField(required=False)
+    # image = serializers.ImageField(required=False)
     organization = OrganizationSerializer(read_only=True)
     tags = TagPartnerSerializer(read_only=True, many=True)
     resources = ResourcePartnerSerializer(read_only=True, many=True)

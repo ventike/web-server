@@ -34,7 +34,8 @@ class User(models.Model):
     first_name = models.CharField(null=False, blank=False, max_length=64)
     last_name = models.CharField(null=False, blank=False, max_length=64)
     role = models.IntegerField(null=False, blank=False, default=2) # 0 = owner, 1 = admin, 2 = user
-    profile_picture = models.ImageField(null=True, blank=True)
+    # profile_picture = models.ImageField(null=True, blank=True)
+    profile_picture = models.TextField(null=True, blank=False)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE, null=False, blank=False)
 
 
@@ -72,7 +73,8 @@ class Partner(models.Model):
     type = models.IntegerField(null=False, blank=False) # 0 = business, 1 = community, 2 = education, 3 = other
     email = models.CharField(null=False, blank=False, max_length=64)
     phone = models.CharField(null=False, blank=False, max_length=64)
-    image = models.ImageField(null=True, blank=True)
+    # image = models.ImageField(null=True, blank=True)
+    image = models.TextField(null=True, blank=False)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE, null=False, blank=False)
     individual = models.OneToOneField(Individual, on_delete=models.CASCADE, null=False, blank=False)
     tags = models.ManyToManyField(Tag)
