@@ -221,7 +221,8 @@ class PartnerCreation(APIView):
         type = request.query_params.get("type", "")
         email = request.query_params.get("email", "")
         phone = request.query_params.get("phone", "")
-        image = request.query_params.get("image", "")
+        # image = request.query_params.get("image", "")
+        image = request.data["image"]
         individual_first_name = request.query_params.get("individual_first_name", "")
         individual_last_name = request.query_params.get("individual_last_name", "")
         individual_email = request.query_params.get("individual_email", "")
