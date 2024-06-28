@@ -310,7 +310,8 @@ class PartnerModification(APIView):
         type = request.query_params.get("type", "")
         email = request.query_params.get("email", "")
         phone = request.query_params.get("phone", "")
-        image = request.query_params.get("image", "")
+        # image = request.query_params.get("image", "")
+        image = request.META.get('HTTP_IMAGE', "")
         individual_first_name = request.query_params.get("individual_first_name", "")
         individual_last_name = request.query_params.get("individual_last_name", "")
         individual_email = request.query_params.get("individual_email", "")
@@ -346,7 +347,7 @@ class PartnerModification(APIView):
         #     ext = format.split('/')[-1] 
 
         #     image_data = ContentFile(base64.b64decode(imgstr), name='image.' + ext)
-        
+
         image_data = None
         if image:
             image_data = image
