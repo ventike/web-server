@@ -311,7 +311,8 @@ class PartnerModification(APIView):
         email = request.query_params.get("email", "")
         phone = request.query_params.get("phone", "")
         # image = request.query_params.get("image", "")
-        image = request.META.get('HTTP_IMAGE', "")
+        # image = request.META.get('HTTP_IMAGE', "")
+        image = request.data
         individual_first_name = request.query_params.get("individual_first_name", "")
         individual_last_name = request.query_params.get("individual_last_name", "")
         individual_email = request.query_params.get("individual_email", "")
