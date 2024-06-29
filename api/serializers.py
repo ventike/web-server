@@ -79,7 +79,7 @@ class PartnerSerializer(serializers.ModelSerializer):
 class PartnerEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Partner
-        fields = ["name"]
+        fields = ["pk", "name"]
 
 class PartnerIDSerializer(serializers.ModelSerializer):
     class Meta:

@@ -665,7 +665,7 @@ class AdminList(APIView):
 
 ######################################################################################################
 
-class GPTAIYKEY(APIView):
+class GPTAIKEY(APIView):
     def post(self, request, format=None):
         user_hash = request.query_params.get("user_hash", "")
 

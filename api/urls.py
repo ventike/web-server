@@ -20,6 +20,6 @@ urlpatterns = [
     path("private/modify-organization/", views.OrganizationModification.as_view(), name="organization-view-modify"),
     path("private/dashboard/", views.DashboardList.as_view(), name="admin-view-list"),
     path("private/admin/", views.AdminList.as_view(), name="admin-view-list"),
-    path("private/openai-key/", views.GPTAIYKEY.as_view(), name="openai-key-view-get"),
+    path("private/openai-key/", views.GPTAIKEY.as_view(), name="openai-key-view-get"),
     # path("usersold/", views.UserListCreate.as_view(), name="user-view-create-account")
 ]
