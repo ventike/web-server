@@ -492,13 +492,16 @@ class EventCreation(APIView):
             return Response(status=status.HTTP_412_PRECONDITION_FAILED)
         
         partners_data = None
-        partners_split = partners.split(", ")
-        
-        if partners_split:
-            partners_data = Partner.objects.filter(organization=user.organization, pk__in=partners_split)
+
+        if partners:
+            partners_split = list(map(int, partners.split(", ")))
+            
+            if partners_split:
+                partners_data = Partner.objects.filter(organization=user.organization, pk__in=partners_split)
         
         new_event = Event.objects.create(name=name, description=description, date=date, start_time=start_time, end_time=end_time, organization=user.organization)
-        new_event.partners.set(partners_data)
+        if partners_data:
+            new_event.partners.set(partners_data)
         new_event.save()
         
         serializer = EventSerializer(new_event)
@@ -514,8 +517,6 @@ class EventModification(APIView):
         start_time = request.query_params.get("start_time", "")
         end_time = request.query_params.get("end_time", "")
         partners = request.query_params.get("partners", "")
-
-        print("a")
 
         if not (user_hash and event_id and name and description and date and start_time and end_time):
             return Response(status=status.HTTP_422_UNPROCESSABLE_ENTITY)
@@ -548,15 +549,13 @@ class EventModification(APIView):
         if date_object == None or start_time_object == None or end_time_object == None:
             return Response(status=status.HTTP_412_PRECONDITION_FAILED)
         
-        print("b")
-        
         partners_data = None
-        partners_split = partners.split(", ")
-        
-        if partners_split:
-            partners_data = Partner.objects.filter(organization=user.organization, pk__in=partners_split)
-        
-        print("c")
+
+        if partners:
+            partners_split = list(map(int, partners.split(", ")))
+            
+            if partners_split:
+                partners_data = Partner.objects.filter(organization=user.organization, pk__in=partners_split)
         
         event.name = name
         event.description = description
@@ -564,10 +563,9 @@ class EventModification(APIView):
         event.start_time = start_time
         event.end_time = end_time
         event.partners.clear()
-        event.partners.set(partners_data)
+        if partners_data:
+            event.partners.set(partners_data)
         event.save()
-
-        print("d")
         
         serializer = EventSerializer(event)
         return Response(serializer.data, status=status.HTTP_200_OK)
