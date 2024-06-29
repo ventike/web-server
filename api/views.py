@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render
 from rest_framework import generics, status
 from rest_framework.response import Response
@@ -661,3 +662,22 @@ class AdminList(APIView):
         user_serializer = UserAdminSerializer(users, many=True)
         organization_serializer = OrganizationSerializer(user.organization)
         return Response([user_serializer.data, organization_serializer.data], status=status.HTTP_200_OK)
+
+######################################################################################################
+
+class GPTAIYKEY(APIView):
+    def post(self, request, format=None):
+        user_hash = request.query_params.get("user_hash", "")
+
+        if not user_hash:
+            return Response(status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        
+        try:
+            user = User.objects.prefetch_related('organization').get(user_hash=user_hash)
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        
+        if user.role != 0 and user.role != 1:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        
+        return Response({"api_key": os.getenv("OPENAI_KEY")}, status=status.HTTP_200_OK)
