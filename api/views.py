@@ -515,6 +515,8 @@ class EventModification(APIView):
         end_time = request.query_params.get("end_time", "")
         partners = request.query_params.get("partners", "")
 
+        print("a")
+
         if not (user_hash and event_id and name and description and date and start_time and end_time):
             return Response(status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         
@@ -546,11 +548,15 @@ class EventModification(APIView):
         if date_object == None or start_time_object == None or end_time_object == None:
             return Response(status=status.HTTP_412_PRECONDITION_FAILED)
         
+        print("b")
+        
         partners_data = None
         partners_split = partners.split(", ")
         
         if partners_split:
             partners_data = Partner.objects.filter(organization=user.organization, pk__in=partners_split)
+        
+        print("c")
         
         event.name = name
         event.description = description
@@ -560,6 +566,8 @@ class EventModification(APIView):
         event.partners.clear()
         event.partners.set(partners_data)
         event.save()
+
+        print("d")
         
         serializer = EventSerializer(event)
         return Response(serializer.data, status=status.HTTP_200_OK)
