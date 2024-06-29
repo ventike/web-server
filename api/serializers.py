@@ -4,7 +4,7 @@ from .models import Organization, User, Individual, Tag, Partner, Resource, Even
 class OrganizationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organization
-        fields = ["name", "message", "message_icon"]
+        fields = ["name", "message", "message_title", "message_icon"]
 
 ######################################################################################################
 

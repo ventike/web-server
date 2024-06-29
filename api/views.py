@@ -599,6 +599,7 @@ class OrganizationModification(APIView):
         user_hash = request.query_params.get("user_hash", "")
         name = request.query_params.get("name", "")
         message = request.query_params.get("message", "")
+        message_title = request.query_params.get("message_title", "")
         message_icon = request.query_params.get("message_icon", "")
 
         if not (user_hash and name):
@@ -615,11 +616,15 @@ class OrganizationModification(APIView):
         if not message:
             message = None
         
+        if not message_title:
+            message_title = None
+        
         if not message_icon:
-            messag_icon = None
+            message_icon = None
         
         user.organization.name = name
         user.organization.message = message
+        user.organization.message_title = message_title
         user.organization.message_icon = int(message_icon)
         user.organization.save()
         
