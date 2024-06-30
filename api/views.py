@@ -370,11 +370,12 @@ class PartnerCreation(APIView):
         resource_names_split = resource_names.split(", ")
         resource_amounts_split = resource_amounts.split(", ")
 
-        if resource_types_split and resource_names_split and resource_amounts_split and len(resource_types_split) == len(resource_names_split) and len(resource_names_split) == len(resource_amounts_split):
-            new_resources = []
-            for i in range(len(resource_amounts_split)):
-                new_resources.append(Resource(type=int(resource_types_split[i]), name=resource_names_split[i], amount=int(resource_amounts_split[i]), partner=new_partner))
-            Resource.objects.bulk_create(new_resources)
+        if (resource_names != "" and resource_types != "" and resource_amounts != ""):
+            if resource_types_split and resource_names_split and resource_amounts_split and len(resource_types_split) == len(resource_names_split) and len(resource_names_split) == len(resource_amounts_split):
+                new_resources = []
+                for i in range(len(resource_amounts_split)):
+                    new_resources.append(Resource(type=int(resource_types_split[i]), name=resource_names_split[i], amount=int(resource_amounts_split[i]), partner=new_partner))
+                Resource.objects.bulk_create(new_resources)
         
         new_partner.refresh_from_db()
         
@@ -465,11 +466,12 @@ class PartnerModification(APIView):
 
         Resource.objects.filter(partner=partner).delete()
 
-        if resource_types_split and resource_names_split and resource_amounts_split and len(resource_types_split) == len(resource_names_split) and len(resource_names_split) == len(resource_amounts_split):
-            new_resources = []
-            for i in range(len(resource_amounts_split)):
-                new_resources.append(Resource(type=int(resource_types_split[i]), name=resource_names_split[i], amount=int(resource_amounts_split[i]), partner=partner))
-            Resource.objects.bulk_create(new_resources)
+        if (resource_names != "" and resource_types != "" and resource_amounts != ""):
+            if resource_types_split and resource_names_split and resource_amounts_split and len(resource_types_split) == len(resource_names_split) and len(resource_names_split) == len(resource_amounts_split):
+                new_resources = []
+                for i in range(len(resource_amounts_split)):
+                    new_resources.append(Resource(type=int(resource_types_split[i]), name=resource_names_split[i], amount=int(resource_amounts_split[i]), partner=partner))
+                Resource.objects.bulk_create(new_resources)
 
         # Modify and save partner
         partner.individual.first_name =  individual_first_name
