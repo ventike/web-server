@@ -103,7 +103,7 @@ class UserCreation(APIView):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         
         salt = bcrypt.gensalt(rounds=15)
-        new_user = User.objects.create(username=username, password=str(bcrypt.hashpw(bytes(password, "utf-8"), salt))[2:-1], email=email, first_name=first_name, last_name=last_name, role=int(role), organization=user.organization.pk)
+        new_user = User.objects.create(username=username, password=str(bcrypt.hashpw(bytes(password, "utf-8"), salt))[2:-1], email=email, first_name=first_name, last_name=last_name, role=int(role), organization=user.organization)
         
         serializer = UserAdminSerializer(new_user)
         return Response(serializer.data, status=status.HTTP_200_OK)
