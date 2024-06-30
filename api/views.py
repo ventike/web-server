@@ -143,7 +143,7 @@ class UserModification(APIView):
         if not is_valid_email(email):
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
         
-        if user.role != 0 or user.role != 1 or user.role > new_user.role:
+        if user.role not in [0, 1] or user.role > new_user.role:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         
         new_user.username=username
