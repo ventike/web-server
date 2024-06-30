@@ -183,9 +183,9 @@ class UserPasswordModification(APIView):
 class UserDeletion(APIView):
     def post(self, request, format=None):
         user_hash = request.query_params.get("user_hash", "")
-        username = request.query_params.get("username", "")
+        user_id = request.query_params.get("user_id", "")
 
-        if not (user_hash and username):
+        if not (user_hash and user_id):
             return Response(status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         
         try:
@@ -194,7 +194,7 @@ class UserDeletion(APIView):
             return Response(status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         
         try:
-            new_user = User.objects.prefetch_related('organization').get(username=username, organization=user.organization)
+            new_user = User.objects.prefetch_related('organization').get(pk=int(user_id), organization=user.organization)
         except User.DoesNotExist:
             return Response(status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         
