@@ -96,6 +96,15 @@ class UserCreation(APIView):
         except User.DoesNotExist:
             return Response(status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         
+        test_user = None
+        try:
+            test_user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            pass
+
+        if test_user:
+            return Response(status=status.HTTP_416_REQUESTED_RANGE_NOT_SATISFIABLE)
+        
         if not is_valid_email(email):
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
         
@@ -111,6 +120,7 @@ class UserCreation(APIView):
 class UserModification(APIView):
     def post(self, request, format=None):
         user_hash = request.query_params.get("user_hash", "")
+        user_id = request.query_params.get("user_id", "")
         username = request.query_params.get("username", "")
         email = request.query_params.get("email", "")
         first_name = request.query_params.get("first_name", "")
@@ -126,7 +136,7 @@ class UserModification(APIView):
             return Response(status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         
         try:
-            new_user = User.objects.prefetch_related('organization').get(username=username, organization=user.organization)
+            new_user = User.objects.prefetch_related('organization').get(pk=int(user_id), organization=user.organization)
         except User.DoesNotExist:
             return Response(status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         
