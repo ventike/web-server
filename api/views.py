@@ -198,7 +198,7 @@ class UserDeletion(APIView):
         except User.DoesNotExist:
             return Response(status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         
-        if user.role != 0 or user.role != 1 or user.role > new_user.role:
+        if user.role not in [0, 1] or user.role > new_user.role:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         
         new_user.delete()
