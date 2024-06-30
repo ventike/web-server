@@ -86,6 +86,15 @@ class PartnerIDSerializer(serializers.ModelSerializer):
         model = Partner
         fields = ["pk", "name"]
 
+class PartnerAISerializer(serializers.ModelSerializer):
+    tags = TagPartnerSerializer(read_only=True, many=True)
+    resources = ResourcePartnerSerializer(read_only=True, many=True)
+    individual = IndividualPartnerSerializer(read_only=True)
+
+    class Meta:
+        model = Partner
+        fields = ["name", "description", "type", "email", "phone", "individual", "tags", "resources"]
+
 ######################################################################################################
 
 class EventSerializer(serializers.ModelSerializer):
@@ -102,3 +111,10 @@ class EventDashboardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields = ["pk", "name", "description", "date", "start_time", "end_time", "partners"]
+
+class EventAISerializer(serializers.ModelSerializer):
+    partners = PartnerEventSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = Event
+        fields = ["name", "description", "date", "start_time", "end_time", "partners"]

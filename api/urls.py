@@ -21,5 +21,6 @@ urlpatterns = [
     path("private/dashboard/", views.DashboardList.as_view(), name="admin-view-list"),
     path("private/admin/", views.AdminList.as_view(), name="admin-view-list"),
     path("private/openai-key/", views.GPTAIKEY.as_view(), name="openai-key-view-get"),
+    path("private/ai-data/", views.AIData.as_view(), name="ai-data-view-get"),
     # path("usersold/", views.UserListCreate.as_view(), name="user-view-create-account")
 ]

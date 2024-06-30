@@ -3,7 +3,7 @@ from django.shortcuts import render
 from rest_framework import generics, status
 from rest_framework.response import Response
 from .models import Organization, User, Individual, Tag, Partner, Resource, Event
-from .serializers import OrganizationSerializer, UserSerializer, UserAdminSerializer, TagSerializer, TagPartnerSerializer, PartnerSerializer, PartnerEventSerializer, EventSerializer, EventDashboardSerializer
+from .serializers import EventAISerializer, OrganizationSerializer, PartnerAISerializer, UserSerializer, UserAdminSerializer, TagSerializer, TagPartnerSerializer, PartnerSerializer, PartnerEventSerializer, EventSerializer, EventDashboardSerializer
 from rest_framework.views import APIView
 import bcrypt
 from django.core.files.base import ContentFile
@@ -823,6 +823,7 @@ class AdminList(APIView):
         if user.role != 0 and user.role != 1:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         
+        # Get all users
         users = User.objects.filter(organization=user.organization)
         
         # Return response
@@ -852,3 +853,30 @@ class GPTAIKEY(APIView):
         
         # Return response
         return Response({"api_key": os.getenv("OPENAI_KEY")}, status=status.HTTP_200_OK)
+
+class AIData(APIView):
+    def post(self, request, format=None):
+        """
+        Retriving OpenAI API Key, All Partners & All Events
+        """
+        # Get all data from request
+        user_hash = request.query_params.get("user_hash", "")
+
+        # Validate inputs
+        if not user_hash:
+            return Response(status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        
+        # Verify user
+        try:
+            user = User.objects.prefetch_related('organization').get(user_hash=user_hash)
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+        
+        # Get partners and events
+        partners = Partner.objects.filter(organization=user.organization)
+        events = Event.objects.filter(organization=user.organization)
+        
+        # Return response
+        partner_serializer = PartnerAISerializer(partners, many=True)
+        event_serializer = EventAISerializer(events, many=True)
+        return Response([{"api_key": os.getenv("OPENAI_KEY")}, partner_serializer.data, event_serializer.data], status=status.HTTP_200_OK)
